@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New - Lyrixia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            border-right: 1px solid #eaeaea;
+            padding: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-image: url('./img/Logo.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #eaeaea;
+            background: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-button:hover {
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .nav-button.active {
+            background-color: #f0f0f0;
+            border-color: #ddd;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            gap: 40px;
+            position: relative;
+        }
+
+        .filter-container {
+            flex: 1;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 80px;
+            min-width: 300px;
+        }
+
+        .custom-input-container {
+            flex: 1;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 80px;
+            display: none;
+            min-width: 300px;
+        }
+
+        .custom-input-container.show {
+            display: block;
+        }
+
+        .custom-input-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .custom-input-title input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .custom-input-box {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            resize: none;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .custom-input-box:focus {
+            outline: none;
+            border-color: #4285f4;
+            background-color: #fff;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .filter-title img {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .filter-title.active img {
+            transform: rotate(180deg);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-option {
+            padding: 8px 16px;
+            border: 1px solid #eaeaea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .filter-option.active {
+            background-color: #4285f4;
+            color: white;
+            border-color: #4285f4;
+        }
+
+        .filter-option.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .filter-title.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-container label {
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .checkbox-container.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .dropdown-content {
+            display: none;
+            background: white;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .required-field::after {
+            content: "*";
+            color: #ff4444;
+            margin-left: 4px;
+        }
+
+        .genre-options .filter-option.active {
+            background-color: #4285f4;
+            color: white;
+        }
+
+        .error-message {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .start-button-container {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            width: 100%;
+            text-align: center;
+        }
+
+        .start-button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 15px 60px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+
+        .start-button:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
+        }
+
+        .confirmation-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .confirmation-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .confirmation-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .selected-options {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .option-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .option-note {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .confirm-button {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-button.yes {
+            background: #4285f4;
+            color: white;
+            border: none;
+        }
+
+        .confirm-button.no {
+            background: white;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .confirm-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .confirm-button.yes:hover {
+            background: #3367d6;
+        }
+
+        .confirm-button.no:hover {
+            background: #f5f5f5;
+        }
+
+        .prompt-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            width: 95%;
+            max-width: 800px;
+        }
+
+        .prompt-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .prompt-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .loading-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4285f4;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .loading-subtext {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .loading-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .loading-cancel-button {
+            padding: 8px 20px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .loading-cancel-button:hover {
+            background: #e0e0e0;
+        }
+
+        .input-box {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            resize: none;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 20px 0 100px 0;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .input-box.enabled {
+            pointer-events: auto;
+            opacity: 1;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo-circle"></div>
+                <div class="logo">Lyrixia</div>
+            </div>
+            <a href="./index.html" class="nav-button">HOME</a>
+            <a href="./example.html" class="nav-button">EXAMPLE</a>
+        </div>
+        <div class="main-content">
+            <div class="content-wrapper">
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <div class="filter-title">
+                            <span>Lyric</span>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="hasLyrics">
+                            <label for="hasLyrics">Include Lyrics</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-title required-field" onclick="toggleDropdown('mood')">
+                            <span>Mood</span>
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E" alt="dropdown">
+                        </div>
+                        <div class="dropdown-content" id="moodDropdown">
+                            <div class="filter-options">
+                                <div class="filter-option" data-value="bright">Bright</div>
+                                <div class="filter-option" data-value="dark">Dark</div>
+                            </div>
+                        </div>
+                        <div class="error-message">Please select a mood</div>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-title required-field" onclick="toggleDropdown('voice')">
+                            <span>Voice</span>
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E" alt="dropdown">
+                        </div>
+                        <div class="dropdown-content" id="voiceDropdown">
+                            <div class="filter-options">
+                                <div class="filter-option" data-value="male">Male</div>
+                                <div class="filter-option" data-value="female">Female</div>
+                            </div>
+                        </div>
+                        <div class="error-message">Please select a voice type</div>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-title" onclick="toggleDropdown('genre')">
+                            <span>Genre</span>
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E" alt="dropdown">
+                        </div>
+                        <div class="dropdown-content" id="genreDropdown">
+                            <div class="filter-options genre-options">
+                                <div class="filter-option" data-value="pop">Pop</div>
+                                <div class="filter-option" data-value="ballad">Ballad</div>
+                                <div class="filter-option" data-value="disco">Disco</div>
+                                <div class="filter-option" data-value="hiphop">Hip Hop</div>
+                                <div class="filter-option" data-value="edm">EDM</div>
+                                <div class="filter-option" data-value="retro">Retro</div>
+                                <div class="filter-option" data-value="rnb">R&B</div>
+                                <div class="filter-option" data-value="jazz">Jazz</div>
+                                <div class="filter-option" data-value="classic">Classic</div>
+                                <div class="filter-option" data-value="rock">Rock</div>
+                                <div class="filter-option" data-value="funk">Funk</div>
+                                <div class="filter-option" data-value="metal">Metal</div>
+                                <div class="filter-option" data-value="hymn">Hymn</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="custom-input-container">
+                    <div class="custom-input-title">
+                        <input type="checkbox" id="customInputToggle" onchange="toggleCustomInput()">
+                        <label for="customInputToggle">Direct Input</label>
+                    </div>
+                    <textarea class="custom-input-box" id="customInput" placeholder="Enter your custom specifications here..."></textarea>
+                </div>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="enableInput" onchange="toggleInputBox()">
+                <label for="enableInput">Enable Custom Input</label>
+            </div>
+            <textarea class="input-box" placeholder="Enter your custom specifications here..." disabled></textarea>
+            <div class="start-button-container">
+                <button class="start-button">Start</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 확인 팝업 추가 -->
+    <div class="confirmation-backdrop"></div>
+    <div class="confirmation-popup">
+        <div class="confirmation-title">Ready to Start?</div>
+        <div class="selected-options">
+            <div class="option-item">Lyrics: <span id="selectedLyrics"></span></div>
+            <div class="option-item">Mood: <span id="selectedMood"></span></div>
+            <div class="option-item">Voice: <span id="selectedVoice"></span></div>
+            <div class="option-item">Genre: <span id="selectedGenres"></span></div>
+            <div class="option-note" id="customInputNote"></div>
+        </div>
+        <div class="confirmation-buttons">
+            <button class="confirm-button yes" onclick="handleConfirm()">Yes</button>
+            <button class="confirm-button no" onclick="closeConfirmation()">No</button>
+        </div>
+    </div>
+
+    <!-- 프롬프트 팝업 추가 -->
+    <div class="prompt-popup" style="display: none;">
+        <div class="prompt-title">Generated Prompt</div>
+        <div class="prompt-content" id="promptText"></div>
+        <div class="confirmation-buttons">
+            <button class="confirm-button yes" onclick="closePrompt()">Close</button>
+        </div>
+    </div>
+
+    <!-- 로딩 팝업 추가 -->
+    <div class="loading-popup">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Creating Your Music</div>
+        <div class="loading-subtext">This may take a few moments...</div>
+        <div class="loading-buttons">
+            <button class="loading-cancel-button" onclick="cancelLoading()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Dropdown toggle function
+        function toggleDropdown(type) {
+            const dropdown = document.getElementById(type + 'Dropdown');
+            const title = dropdown.previousElementSibling;
+            
+            dropdown.classList.toggle('show');
+            title.classList.toggle('active');
+        }
+
+        // Validate required fields
+        function validateRequired() {
+            const customInputToggle = document.getElementById('enableInput');
+            
+            // 커스텀 입력 모드일 경우 검증 건너뛰기
+            if (customInputToggle.checked) {
+                return true;
+            }
+
+            const hasLyrics = document.getElementById('hasLyrics').checked;
+            const mood = document.querySelector('#moodDropdown .filter-option.active');
+            const voice = document.querySelector('#voiceDropdown .filter-option.active');
+            const genres = document.querySelectorAll('#genreDropdown .filter-option.active');
+            
+            // Mood는 항상 필수
+            document.querySelector('#moodDropdown').nextElementSibling.classList.toggle('show', !mood);
+            
+            // Voice는 가사가 있을 때만 필수
+            if (hasLyrics) {
+                document.querySelector('#voiceDropdown').nextElementSibling.classList.toggle('show', !voice);
+            } else {
+                document.querySelector('#voiceDropdown').nextElementSibling.classList.remove('show');
+            }
+            
+            // 장르 에러 메시지 추가
+            const genreError = document.querySelector('#genreDropdown').nextElementSibling;
+            if (!genreError) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = 'Please select at least one genre';
+                document.querySelector('#genreDropdown').parentNode.appendChild(errorDiv);
+            }
+            genreError?.classList.toggle('show', genres.length === 0);
+
+            // 가사가 없을 때는 voice 선택이 없어도 됨
+            return mood && genres.length > 0 && (!hasLyrics || voice);
+        }
+
+        // Mood and Voice option click events
+        ['mood', 'voice'].forEach(type => {
+            const options = document.querySelectorAll(`#${type}Dropdown .filter-option`);
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    validateRequired();
+                });
+            });
+        });
+
+        // Lyrics checkbox change event
+        document.getElementById('hasLyrics').addEventListener('change', function() {
+            const voiceTitle = document.querySelector('.filter-title[onclick="toggleDropdown(\'voice\')"]');
+            const voiceDropdown = document.getElementById('voiceDropdown');
+            const voiceOptions = voiceDropdown.querySelectorAll('.filter-option');
+            
+            if (this.checked) {
+                // Enable voice selection when lyrics is checked
+                voiceTitle.classList.remove('disabled');
+                voiceOptions.forEach(option => {
+                    option.classList.remove('disabled');
+                });
+            } else {
+                // Disable voice selection when lyrics is unchecked
+                voiceTitle.classList.add('disabled');
+                voiceOptions.forEach(option => {
+                    option.classList.remove('active');
+                    option.classList.add('disabled');
+                });
+                voiceDropdown.classList.remove('show');
+                voiceTitle.classList.remove('active');
+            }
+            validateRequired();
+        });
+
+        // Initial state setup
+        document.addEventListener('DOMContentLoaded', function() {
+            const hasLyrics = document.getElementById('hasLyrics');
+            const voiceTitle = document.querySelector('.filter-title[onclick="toggleDropdown(\'voice\')"]');
+            const voiceDropdown = document.getElementById('voiceDropdown');
+            const voiceOptions = voiceDropdown.querySelectorAll('.filter-option');
+            
+            if (!hasLyrics.checked) {
+                voiceTitle.classList.add('disabled');
+                voiceOptions.forEach(option => {
+                    option.classList.add('disabled');
+                });
+            }
+        });
+
+        // Genre option click events (multiple selection)
+        document.querySelectorAll('#genreDropdown .filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Start button click event
+        document.querySelector('.start-button').addEventListener('click', function() {
+            const customInputToggle = document.getElementById('enableInput');
+            
+            if (customInputToggle.checked) {
+                const customInput = document.getElementById('customInput').value.trim();
+                
+                // 커스텀 입력 모드에서는 입력 내용만 표시
+                document.getElementById('selectedLyrics').textContent = customInput || 'No specific instructions provided.';
+                document.getElementById('selectedMood').textContent = '';
+                document.getElementById('selectedVoice').textContent = '';
+                document.getElementById('selectedGenres').textContent = '';
+                document.getElementById('customInputNote').textContent = 'Note: Custom input can be empty.';
+                
+                showConfirmation();
+            } else {
+                if (!validateRequired()) {
+                    const hasLyrics = document.getElementById('hasLyrics').checked;
+                    const errorMessage = hasLyrics 
+                        ? 'Please select mood, voice, and at least one genre.'
+                        : 'Please select mood and at least one genre.';
+                    alert(errorMessage);
+                    return;
+                }
+
+                const selectedOptions = {
+                    hasLyrics: document.getElementById('hasLyrics').checked,
+                    mood: document.querySelector('#moodDropdown .filter-option.active')?.dataset.value,
+                    voice: document.querySelector('#voiceDropdown .filter-option.active')?.dataset.value,
+                    genres: Array.from(document.querySelectorAll('#genreDropdown .filter-option.active'))
+                        .map(el => el.dataset.value)
+                };
+
+                // 선택된 옵션 표시
+                document.getElementById('selectedLyrics').textContent = selectedOptions.hasLyrics ? 'Yes' : 'No';
+                document.getElementById('selectedMood').textContent = capitalizeFirstLetter(selectedOptions.mood);
+                document.getElementById('selectedVoice').textContent = selectedOptions.hasLyrics 
+                    ? capitalizeFirstLetter(selectedOptions.voice)
+                    : 'Not required';
+                document.getElementById('selectedGenres').textContent = selectedOptions.genres.map(capitalizeFirstLetter).join(', ');
+                document.getElementById('customInputNote').textContent = '';
+
+                showConfirmation();
+            }
+        });
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function showConfirmation() {
+            document.querySelector('.confirmation-backdrop').style.display = 'block';
+            document.querySelector('.confirmation-popup').style.display = 'block';
+        }
+
+        function closeConfirmation() {
+            document.querySelector('.confirmation-backdrop').style.display = 'none';
+            document.querySelector('.confirmation-popup').style.display = 'none';
+        }
+
+        function handleConfirm() {
+            closeConfirmation();
+            generatePromptAndShowLoading();
+        }
+
+        function toggleCustomInput() {
+            const customInputContainer = document.querySelector('.custom-input-container');
+            const customInputToggle = document.getElementById('customInputToggle');
+            const filterOptions = document.querySelectorAll('.filter-option');
+            
+            if (customInputToggle.checked) {
+                customInputContainer.classList.add('show');
+                filterOptions.forEach(option => {
+                    option.classList.add('disabled');
+                });
+            } else {
+                customInputContainer.classList.remove('show');
+                filterOptions.forEach(option => {
+                    option.classList.remove('disabled');
+                });
+            }
+        }
+
+        function generatePromptAndShowLoading() {
+            const customInputToggle = document.getElementById('enableInput');
+            let prompt;
+
+            if (customInputToggle.checked) {
+                const customInput = document.getElementById('customInput').value.trim();
+                
+                // Generate custom input prompt
+                prompt = `${customInput || 'No specific instructions provided.'}
+
+Please write song lyrics based on this prompt.
+If the content is not related to music, please indicate that it cannot be generated.
+
+Instructions:
+- Write lyrics in English only
+- Do not use stickers or emojis
+- Do not include any text other than lyrics
+- Do not include any responses or additional text`;
+
+                // Save prompt
+                document.getElementById('promptText').textContent = prompt;
+                
+                // Show loading screen
+                showLoading();
+            } else {
+                const hasLyrics = document.getElementById('hasLyrics').checked;
+                const mood = document.querySelector('#moodDropdown .filter-option.active').dataset.value;
+                const voice = document.querySelector('#voiceDropdown .filter-option.active').dataset.value;
+                const genres = Array.from(document.querySelectorAll('#genreDropdown .filter-option.active'))
+                    .map(el => el.dataset.value);
+
+                prompt = `Create a ${mood} song with the following specifications:
+
+Voice Type: ${capitalizeFirstLetter(voice)}
+Genre: ${genres.map(capitalizeFirstLetter).join(', ')}
+${hasLyrics ? 'Include lyrics in the composition' : 'Instrumental only'}
+Mood: ${capitalizeFirstLetter(mood)}
+
+Please write lyrics based on this prompt.
+
+Instructions:
+- Write lyrics in English only
+- Do not use stickers or emojis
+- Do not include any text other than lyrics
+- Do not include any responses or additional text`;
+
+                // Save prompt
+                document.getElementById('promptText').textContent = prompt;
+                
+                // Show loading screen
+                showLoading();
+            }
+
+            console.log('Generated Prompt (hidden):', prompt);
+        }
+
+        function showLoading() {
+            document.querySelector('.loading-popup').style.display = 'block';
+            document.querySelector('.confirmation-backdrop').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.querySelector('.loading-popup').style.display = 'none';
+            document.querySelector('.confirmation-backdrop').style.display = 'none';
+        }
+
+        function closePrompt() {
+            document.querySelector('.prompt-popup').style.display = 'none';
+            document.querySelector('.confirmation-backdrop').style.display = 'none';
+        }
+
+        function cancelLoading() {
+            hideLoading();
+            // 여기에 취소 시 필요한 추가 로직 추가 가능
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.filter-group')) {
+                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                    dropdown.previousElementSibling.classList.remove('active');
+                });
+            }
+        });
+
+        function toggleInputBox() {
+            const inputBox = document.querySelector('.input-box');
+            const enableCheckbox = document.getElementById('enableInput');
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const filterTitles = document.querySelectorAll('.filter-title');
+            const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
+            const lyricsCheckbox = document.getElementById('hasLyrics');
+            const lyricsLabel = document.querySelector('label[for="hasLyrics"]');
+            
+            if (enableCheckbox.checked) {
+                inputBox.classList.add('enabled');
+                inputBox.disabled = false;
+                
+                // 필터 옵션 비활성화
+                filterOptions.forEach(option => {
+                    option.classList.add('disabled');
+                });
+                
+                // 필터 제목 비활성화
+                filterTitles.forEach(title => {
+                    title.classList.add('disabled');
+                });
+                
+                // 체크박스 비활성화 (Enable Custom Input 체크박스는 제외)
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.id !== 'enableInput') {
+                        checkbox.disabled = true;
+                    }
+                });
+
+                // 가사 체크박스와 라벨 비활성화
+                lyricsCheckbox.disabled = true;
+                lyricsLabel.style.opacity = '0.5';
+                lyricsLabel.style.cursor = 'not-allowed';
+
+                // 선택된 항목 초기화
+                resetAllSelections();
+            } else {
+                inputBox.classList.remove('enabled');
+                inputBox.disabled = true;
+                inputBox.value = ''; // 입력 내용 초기화
+                
+                // 필터 옵션 활성화
+                filterOptions.forEach(option => {
+                    option.classList.remove('disabled');
+                });
+                
+                // 필터 제목 활성화
+                filterTitles.forEach(title => {
+                    title.classList.remove('disabled');
+                });
+                
+                // 체크박스 활성화
+                checkboxes.forEach(checkbox => {
+                    checkbox.disabled = false;
+                });
+
+                // 가사 체크박스와 라벨 활성화
+                lyricsCheckbox.disabled = false;
+                lyricsLabel.style.opacity = '1';
+                lyricsLabel.style.cursor = 'pointer';
+            }
+        }
+
+        function resetAllSelections() {
+            // 가사 체크박스 초기화
+            document.getElementById('hasLyrics').checked = false;
+
+            // Mood 선택 초기화
+            const moodOptions = document.querySelectorAll('#moodDropdown .filter-option');
+            moodOptions.forEach(option => {
+                option.classList.remove('active');
+            });
+
+            // Voice 선택 초기화
+            const voiceOptions = document.querySelectorAll('#voiceDropdown .filter-option');
+            voiceOptions.forEach(option => {
+                option.classList.remove('active');
+            });
+
+            // Genre 선택 초기화
+            const genreOptions = document.querySelectorAll('#genreDropdown .filter-option');
+            genreOptions.forEach(option => {
+                option.classList.remove('active');
+            });
+
+            // 드롭다운 닫기
+            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                dropdown.classList.remove('show');
+                dropdown.previousElementSibling.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html> 
